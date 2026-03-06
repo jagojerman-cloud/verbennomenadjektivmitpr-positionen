@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Verben, Nomen, Adjektiv mit Präpositionen</title>
+
+<style>
+
+body{
+font-family: Arial;
+background: linear-gradient(135deg,#5f9cff,#8fd3ff);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.quiz-box{
+background:white;
+padding:30px;
+border-radius:15px;
+width:650px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.title{
+font-size:26px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.instruction{
+font-size:15px;
+margin-bottom:20px;
+color:#444;
+}
+
+.progress{
+margin-bottom:15px;
+font-weight:bold;
+}
+
+.question{
+font-size:20px;
+margin-bottom:20px;
+}
+
+.answer{
+display:block;
+width:100%;
+margin:10px 0;
+padding:15px;
+font-size:16px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+background:#eee;
+box-shadow:0 6px #999;
+transition:0.1s;
+}
+
+.answer:hover{
+background:#ddd;
+}
+
+.answer:active{
+box-shadow:0 2px #666;
+transform:translateY(4px);
+}
+
+.correct{
+background:#4CAF50 !important;
+color:white;
+}
+
+.wrong{
+background:#e74c3c !important;
+color:white;
+}
+
+.controls{
+margin-top:20px;
+}
+
+.nav{
+padding:12px 20px;
+margin:5px;
+border:none;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
+background:#333;
+color:white;
+box-shadow:0 5px #111;
+}
+
+.nav:active{
+transform:translateY(3px);
+box-shadow:0 2px #111;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="quiz-box">
+
+<div class="title">
+VERBEN, NOMEN, ADJEKTIV MIT PRÄPOSITIONEN
+</div>
+
+<div class="instruction">
+Anweisung: Wähle die richtige Präposition. Klicke auf die richtige Antwort.
+</div>
+
+<div class="progress" id="progress"></div>
+
+<div class="question" id="question"></div>
+
+<div id="answers"></div>
+
+<div class="controls">
+<button class="nav" onclick="prevQuestion()">⬅ Zurück</button>
+<button class="nav" onclick="nextQuestion()">Nächste ➜</button>
+</div>
+
+</div>
+
+<script>
+
+const quiz = [
+
+{q:"1. Ich warte ___ den Bus.",a:["auf","für","mit"],c:0},
+{q:"2. Er interessiert sich ___ Geschichte.",a:["an","für","mit"],c:1},
+{q:"3. Wir denken ___ dich.",a:["an","für","über"],c:0},
+{q:"4. Sie träumt ___ einer Reise.",a:["über","von","mit"],c:1},
+{q:"5. Ich habe Angst ___ Spinnen.",a:["vor","mit","für"],c:0},
+{q:"6. Er ist stolz ___ seinen Sohn.",a:["auf","für","über"],c:0},
+{q:"7. Wir sprechen ___ das Problem.",a:["über","für","mit"],c:0},
+{q:"8. Ich helfe dir ___ der Aufgabe.",a:["an","bei","für"],c:1},
+{q:"9. Sie bittet mich ___ Hilfe.",a:["für","um","an"],c:1},
+{q:"10. Er glaubt ___ Gott.",a:["in","an","auf"],c:1},
+{q:"11. Ich erinnere mich ___ den Urlaub.",a:["an","für","über"],c:0},
+{q:"12. Wir lachen ___ den Witz.",a:["für","über","mit"],c:1},
+{q:"13. Er bedankt sich ___ die Hilfe.",a:["für","an","über"],c:0},
+{q:"14. Ich nehme ___ dem Kurs teil.",a:["bei","an","für"],c:1},
+{q:"15. Sie wartet ___ ihre Freundin.",a:["auf","für","über"],c:0},
+{q:"16. Er ist zufrieden ___ dem Ergebnis.",a:["mit","für","an"],c:0},
+{q:"17. Wir sind interessiert ___ Kunst.",a:["an","für","über"],c:0},
+{q:"18. Ich bin bereit ___ die Prüfung.",a:["für","an","über"],c:0},
+{q:"19. Er ist bekannt ___ seine Musik.",a:["für","an","über"],c:0},
+{q:"20. Ich träume ___ einem Haus.",a:["über","von","für"],c:1},
+{q:"21. Sie denkt oft ___ ihre Familie.",a:["über","an","für"],c:1},
+{q:"22. Wir diskutieren ___ Politik.",a:["über","für","an"],c:0},
+{q:"23. Ich entschuldige mich ___ den Fehler.",a:["für","über","an"],c:0},
+{q:"24. Er kümmert sich ___ die Kinder.",a:["um","für","über"],c:0},
+{q:"25. Ich freue mich ___ den Urlaub.",a:["über","auf","an"],c:1}
+
+];
+
+let current = 0;
+
+function loadQuestion(){
+
+document.getElementById("question").innerText = quiz[current].q;
+
+document.getElementById("progress").innerText =
+"Frage "+(current+1)+" / "+quiz.length;
+
+let answersHTML = "";
+
+quiz[current].a.forEach((ans,i)=>{
+
+answersHTML += `<button class="answer" onclick="checkAnswer(this,${i})">${ans}</button>`;
+
+});
+
+document.getElementById("answers").innerHTML = answersHTML;
+
+}
+
+function checkAnswer(btn,index){
+
+const correct = quiz[current].c;
+
+const buttons = document.querySelectorAll(".answer");
+
+buttons.forEach(b=>b.disabled=true);
+
+if(index===correct){
+btn.classList.add("correct");
+}else{
+btn.classList.add("wrong");
+buttons[correct].classList.add("correct");
+}
+
+}
+
+function nextQuestion(){
+
+if(current < quiz.length-1){
+current++;
+loadQuestion();
+}
+
+}
+
+function prevQuestion(){
+
+if(current > 0){
+current--;
+loadQuestion();
+}
+
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
